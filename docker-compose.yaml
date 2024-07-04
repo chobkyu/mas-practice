@@ -5,6 +5,7 @@ services:
     image: "traefik:v2.9"
     container_name: "traefik"
     command:
+      #- "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -13,7 +14,7 @@ services:
       - "80:80"
       - "8080:8080"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker/sock:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   whoami:
     image: "traefik/whoami"
@@ -29,9 +30,9 @@ services:
     container_name: "order-service"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.orer.rule=PathPrefix(`/api/order`)"
+      - "traefik.http.routers.order.rule=PathPrefix(`/api/order`)"
     expose:
-     - 9001
+      - 9001 
     restart: always
 
   front:
@@ -41,7 +42,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.front.rule=Path(`/`) || PathPrefix(`/w`)"
     expose:
-      - 9000
+      - 9000 
     restart: always
 
   store:
@@ -49,9 +50,9 @@ services:
     container_name: "store-service"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.store.rule=PathPrefix(`/api/store/)"
+      - "traefik.http.routers.store.rule=PathPrefix(`/api/store`)"
     expose:
-      - 9003
+      - 9003 
     restart: always
 
   user:
@@ -61,5 +62,5 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.user.rule=PathPrefix(`/api/user`)"
     expose:
-      - 9002
+      - 9002 
     restart: always

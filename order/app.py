@@ -49,13 +49,16 @@ def products():
 
 @app.route("/api/order/<oid>",methods=["GET"])
 def order(oid):
+    print(oid)
     sid="0"
     data = json.loads(order_list)
     for v in data:
         if v["id"] == oid:
             sid=v["storeId"]
-    response = requests.get("http://stroe:9003/api/store/"+sid)
+    print(sid)
+    response = requests.get("http://store:9003/api/store/"+sid)
     store_status = json.loads(response.content)
+    
     return store_status
 
 if __name__ == "__main__":
